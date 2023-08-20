@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>Quiz App</h1>
+    <div id="quizContainer"></div>
+    <button id="btn">Submit</button>
+   
+    <script>
+        const quizContainer = document.getElementById("quizContainer"); 
+        const Submit=document.getElementById("btn")
+
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: { a: "Paris", b: "London", c: "Berlin", d: "Madrid" },
+                ans: "a"
+            },
+            {
+                question: "What is the capital of Spain?",
+                options: { a: "Madrid", b: "Paris", c: "Rome", d: "Berlin" },
+                ans: "a"
+            }
+        ];
+        const quizHtml = [];
+
+        function BuildQuize(){
+        
+
+        questions.forEach((currentQuestion, questionIndex) => {
+            const optionsHtml = [];
+            console.log(questionIndex )
+            for (const choice in currentQuestion.options) {
+                optionsHtml.push(`<label><input type="radio" name="question${questionIndex}" value="${choice}">${choice}: ${currentQuestion.options[choice]}</label>`);
+            }
+            quizHtml.push(`
+                <div>
+                    <div>${currentQuestion.question}</div>
+                    ${optionsHtml.join('')}
+                </div>
+            `);
+        });
+        quizContainer.innerHTML = quizHtml.join('');
+
+        }
+        function showResult() {
+            let score = 0;
+        
+            questions.forEach((currentQuestion, questionIndex) => {
+                const selectedOption = document.querySelector(`input[name="question${questionIndex}"]:checked`);
+                if (selectedOption) {
+                    const selectedAnswer = selectedOption.value;
+                    if (selectedAnswer === currentQuestion.ans) {
+                        score++;
+                    }
+                }
+            });
+        
+            alert(`Your score is: ${score} out of ${questions.length}`);
+        }
+
+
+        BuildQuize();
+        Submit.addEventListener("click",showResult);
+
+    </script>
+</body>
+</html>
